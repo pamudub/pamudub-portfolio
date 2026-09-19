@@ -3,7 +3,21 @@
    หมายเหตุ: แต่ละหน้าฉีด <style> ของตัวเองทีหลังไฟล์นี้ จึงต้องใช้ !important
    เพื่อให้กฎ responsive ชนะแน่นอน */
 
-@media (max-width: 768px) {
+@media (max-width: 768px), (max-height: 520px) {
+
+  /* ── วิดีโอพื้นหลัง: ตรึงให้อยู่ในเฟรมจอเสมอ ──
+     เดิม video เป็น absolute inset:0 ใน #menu-screen ที่ height:auto
+     พอเนื้อหายาวกว่าจอ video ถูกยืดตามความสูงเนื้อหา → ภาพซูมเกินเฟรม
+     แก้: fixed ที่ viewport ขนาดเท่าจอ → เนื้อหาปัดเลื่อนทับวิดีโอได้ */
+  #menu-screen video {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    object-fit: cover !important;
+  }
 
   /* ── พื้นฐานทุกหน้า: เปิดให้ปัดเลื่อนได้ + ลบ tap highlight สีฟ้า ── */
   html, body {
@@ -197,4 +211,33 @@
     margin-top: 24px !important;
   }
   .p3-row-clone .p3-label-base-clone { font-size: 28px !important; }
+}
+
+/* ── มือถือแนวนอน (landscape): จอเตี้ย (~390px) แต่กว้าง ──
+   ใช้เลย์เอาต์มือถือชุดเดิมจาก media query ข้างบน (match ผ่าน max-height)
+   บล็อกนี้เสริม: ลดความสูงแถว/ระยะแนวตั้ง ให้เห็นเนื้อหามากขึ้นต่อหน้าจอ
+   และปัดเลื่อนอ่านต่อได้เหมือนแนวตั้ง */
+@media (max-height: 520px) {
+  .p3-menu { padding: 14px 20px !important; }
+  .p3-row { margin-top: 3px !important; }
+  .p3-name-tag { font-size: 26px !important; }
+
+  .sp-title { font-size: 38px !important; }
+  .sp-container { padding-top: 3vh !important; }
+
+  .sc-root { padding-top: 2.5vh !important; gap: 7px !important; }
+  .sc-bar, .sc-bar-red { height: 46px !important; }
+  .sc-bar-outer.active .sc-bar,
+  .sc-bar-outer.active .sc-bar-red { height: 60px !important; }
+  .sc-role { font-size: 24px !important; width: 74px !important; }
+  .sc-label { font-size: 16px !important; }
+
+  .resume-stack { margin-top: 2.5vh !important; }
+  .resume-card { height: 62px !important; }
+  .resume-card-wrap.active .resume-card { height: 78px !important; }
+  .resume-title { font-size: 24px !important; }
+  .resume-list-tag { font-size: 34px !important; }
+
+  .resume-detail-panel { padding: 10px !important; }
+  .resume-detail-row { min-height: 34px !important; }
 }

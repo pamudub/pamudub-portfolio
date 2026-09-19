@@ -233,9 +233,10 @@ export default function P3Menu({ onNavigate }) {
             const estW = item.label.length * item.fontSize * 0.6 + 80;
             const estH = item.fontSize * 0.94;
             const clipFn = CLIP_SHAPES[i] ?? CLIP_SHAPES[0];
-            // มือถือ: ย่อตามความกว้างจอ (14.5vw ที่ 80px) แต่คงสัดส่วนลำดับขนาดระหว่างแถว
-            // PC: ค่า vw ล้น cap → ได้ขนาด px เดิมทุกแถว
-            const fs = `min(${item.fontSize}px, ${(item.fontSize * 0.18125).toFixed(3)}vw)`;
+            // มือถือแนวตั้ง: ย่อตามความกว้างจอ (14.5vw ที่ 80px) แต่คงสัดส่วนลำดับขนาดระหว่างแถว
+            // มือถือแนวนอน (จอเตี้ย): ย่อตามความสูงจอด้วย 18vh กันเมนูล้นจอ
+            // PC: ทุกเงื่อนไขล้น cap → ได้ขนาด px เดิมทุกแถว
+            const fs = `min(${item.fontSize}px, ${(item.fontSize * 0.18125).toFixed(3)}vw, ${(item.fontSize * 0.18).toFixed(3)}vh)`;
 
             return (
               <a

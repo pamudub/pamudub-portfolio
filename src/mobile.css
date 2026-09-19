@@ -72,19 +72,30 @@
     gap: 10px !important;
   }
   .sc-bar-outer { width: 92vw !important; }
-  .sc-bar { width: 92vw !important; height: 56px !important; }
-  .sc-bar-red { width: 92vw !important; height: 56px !important; }
-  .sc-bar-outer.active .sc-bar { height: 76px !important; }
-  .sc-bar-outer.active .sc-bar-red { height: 76px !important; }
+  .sc-bar { width: 92vw !important; height: 66px !important; }
+  .sc-bar-red { width: 92vw !important; height: 66px !important; }
+  .sc-bar-outer.active .sc-bar { height: 86px !important; }
+  .sc-bar-outer.active .sc-bar-red { height: 86px !important; }
   .sc-role {
     font-size: 30px !important;
     width: 88px !important;
     padding: 0 8px 0 4px !important;
   }
-  .sc-main { padding-left: 16px !important; }
+  .sc-main { padding-left: 16px !important; padding-right: 88px !important; }
   .sc-label { font-size: 19px !important; letter-spacing: 2px !important; }
   .sc-main-top { padding-right: 0 !important; }
-  .sc-char { max-width: 80px !important; }
+  /* ตัวละครในแถบ → ย้ายไปชิดขวา สูงเต็มแถบ เห็นชัดขึ้น
+     (เดิมอยู่ left:110px ทับข้อความ และถูก crop เหลือแถบเตี้ย ๆ จนมองไม่เห็น) */
+  .sc-char {
+    max-width: 96px !important;
+    left: auto !important;
+    right: 10px !important;
+    top: auto !important;
+    bottom: 0 !important;
+    height: 100% !important;
+    clip-path: none !important;
+    object-position: top center !important;
+  }
 
   /* กล่องสถิติ → เลิก fixed ขวา เรียงเต็มกว้างใต้รายการ */
   .sc-info-bar-wrap {
@@ -117,27 +128,79 @@
     flex-direction: column !important;
   }
   #menu-screen .sc-root { order: 1; }
-  .sc-reveal-panel {
+
+  /* ปิดม่าน dim ตอน reveal — บนมือถือมันทับแถบ/ตัวละครจนจางมองไม่เห็น */
+  #menu-screen .sc-dim { display: none !important; }
+
+  /* ภาพตัวละครใหญ่ → จัดเข้า flow เป็นภาพเต็มระหว่างแถบกับแผงข้อมูล
+     (เดิม absolute ลอยทับข้อความฝั่งขวาและล้นจอครึ่งหนึ่ง) */
+  .sc-main-portrait-shell {
     position: static !important;
     order: 2;
-    width: 92vw !important;
-    margin: 10px auto 16px !important;
+    width: 88vw !important;
+    height: 300px !important;
+    margin: 12px auto 0 !important;
+    right: auto !important;
     transform: none !important;
-    padding: 10px !important;
-  }
-  .sc-reveal-upper-bar { position: static !important; height: auto !important; padding: 8px 10px !important; }
-  .sc-reveal-upper-line {
-    font-size: clamp(14px, 4.6vw, 24px) !important;
-    text-align: center !important;
-    white-space: nowrap !important;
+    opacity: 1 !important;
     overflow: hidden !important;
-    text-overflow: ellipsis !important;
+  }
+  .sc-main-portrait {
+    transform: none !important;
+    object-position: top center !important;
+  }
+
+  /* แผงข้อมูล → พื้นทึบ เต็มกว้าง ตัด clip-path มุมทิ้ง ข้อความตัดคำได้ */
+  .sc-reveal-panel {
+    position: static !important;
+    order: 3;
+    width: 92vw !important;
+    margin: 12px auto 20px !important;
+    transform: none !important;
+    opacity: 1 !important;
+    padding: 12px !important;
+    clip-path: none !important;
+    box-shadow: none !important;
+    border-left: 6px solid var(--p3-red-accent) !important;
+  }
+  /* แถบแดงเสริมบนแผง (::before) — เมื่อแผงเป็น static มันจะหลุดไปลอยบนสุดจอ */
+  #menu-screen .sc-reveal-panel::before { display: none !important; }
+  .sc-tab-navigation {
+    position: static !important;
+    height: auto !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+  }
+  .sc-tab-button {
+    font-size: 14px !important;
+    padding: 10px 6px !important;
+    min-height: 44px !important;
+    background: rgba(13, 26, 58, 0.9) !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+  }
+  .sc-reveal-upper-bar {
+    position: static !important;
+    height: auto !important;
+    padding: 12px !important;
+    clip-path: none !important;
+    gap: 8px !important;
+  }
+  .sc-reveal-upper-line {
+    font-size: clamp(15px, 4.4vw, 22px) !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    white-space: normal !important;
+    overflow: visible !important;
   }
   .sc-reveal-lower-bar {
     position: static !important;
     width: 100% !important;
-    margin-top: 8px !important;
-    font-size: clamp(12px, 3.8vw, 18px) !important;
+    margin-top: 10px !important;
+    padding: 12px 14px !important;
+    height: auto !important;
+    clip-path: none !important;
+    font-size: clamp(14px, 4vw, 19px) !important;
+    line-height: 1.4 !important;
   }
 
   /* ── หน้า Resume ──
@@ -226,11 +289,14 @@
   .sp-container { padding-top: 3vh !important; }
 
   .sc-root { padding-top: 2.5vh !important; gap: 7px !important; }
-  .sc-bar, .sc-bar-red { height: 46px !important; }
+  .sc-bar, .sc-bar-red { height: 54px !important; }
   .sc-bar-outer.active .sc-bar,
-  .sc-bar-outer.active .sc-bar-red { height: 60px !important; }
+  .sc-bar-outer.active .sc-bar-red { height: 68px !important; }
   .sc-role { font-size: 24px !important; width: 74px !important; }
   .sc-label { font-size: 16px !important; }
+  .sc-main { padding-right: 76px !important; }
+  .sc-char { max-width: 78px !important; right: 8px !important; }
+  .sc-main-portrait-shell { height: 200px !important; }
 
   .resume-stack { margin-top: 2.5vh !important; }
   .resume-card { height: 62px !important; }

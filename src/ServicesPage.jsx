@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { sfx } from "./sfx";
+import { makeTouchSelectHandlers } from "./useTouchSelect";
 import menuVideo from "./assets/Mainn.mp4";
 import menuLoopVideo from "./assets/Mainn_1.mp4";
 
@@ -375,8 +376,11 @@ export default function ServicesPage() {
               key={svc.id}
               className={`sc-bar-outer${active === idx ? " active" : ""}${mounted ? " mounted" : ""}`}
               style={{ transitionDelay: mounted ? `${idx * 60 + 100}ms` : "0ms" }}
-              onMouseEnter={() => { if (active !== idx) { setActive(idx); setActiveInfoBar(0); sfx.move(); } }}
-              onClick={() => { if (active !== idx) { setActive(idx); setActiveInfoBar(0); sfx.move(); } else { sfx.confirm(); } }}
+              {...makeTouchSelectHandlers({
+                isActive: active === idx,
+                onActivate: () => { if (active !== idx) { setActive(idx); setActiveInfoBar(0); sfx.move(); } },
+                onSelect: () => { if (active !== idx) { setActive(idx); setActiveInfoBar(0); sfx.move(); } else { sfx.confirm(); } },
+              })}
             >
               <div className="sc-bar-red" />
               <div className="sc-bar">
@@ -397,7 +401,7 @@ export default function ServicesPage() {
           <div style={{ marginTop: '50px', display: 'flex', gap: '200px', marginLeft: '15px' }}>
             <a
               href="/"
-              onClick={(e) => { e.preventDefault(); sfx.back(); navigate('/') }}
+              {...makeTouchSelectHandlers({ isActive: true, onActivate: null, onSelect: (e) => { sfx.back(); navigate('/') } })}
               className="p3-row-clone"
               style={{ transitionDelay: '600ms' }}
             >
@@ -412,7 +416,7 @@ export default function ServicesPage() {
             </a>
             <a
               href="#/socials"
-              onClick={(e) => { e.preventDefault(); sfx.open(); navigate('/socials') }}
+              {...makeTouchSelectHandlers({ isActive: true, onActivate: null, onSelect: (e) => { sfx.open(); navigate('/socials') } })}
               className="p3-row-clone"
               style={{ transitionDelay: '700ms' }}
             >

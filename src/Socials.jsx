@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { sfx } from "./sfx";
+import { makeTouchSelectHandlers } from "./useTouchSelect";
 import { profile } from "./portfolioData";
 import char1 from "./assets/char1.png";
 import char2 from "./assets/char2.png";
@@ -478,11 +479,11 @@ export default function Socials() {
           <div
             key={item.id}
             className={`sc-bar-outer${active === i ? " active" : ""}${mounted ? " mounted" : ""}`}
-            onClick={() => {
-              if (active === i) { sfx.open(); window.open(item.href, "_blank"); }
-              else { setActive(i); sfx.move(); }
-            }}
-            onMouseEnter={() => { if (active !== i) { setActive(i); sfx.move(); } }}
+            {...makeTouchSelectHandlers({
+              isActive: active === i,
+              onActivate: () => { setActive(i); sfx.move(); },
+              onSelect: () => { sfx.open(); window.open(item.href, "_blank"); },
+            })}
           >
             <div className="sc-bar-red" />
             <div className="sc-bar">
@@ -518,8 +519,11 @@ export default function Socials() {
           className={`sc-info-bar-wrap${activeInfoBar === i ? " selected" : ""}`}
           key={`bar-${active}-${i}`}
           style={{ top: `${155 + i * 68}px`, animationDelay: `${i * 50}ms` }}
-          onClick={() => { if (activeInfoBar !== i) { setActiveInfoBar(i); sfx.move(); } }}
-          onMouseEnter={() => { if (activeInfoBar !== i) { setActiveInfoBar(i); sfx.move(); } }}
+          {...makeTouchSelectHandlers({
+            isActive: activeInfoBar === i,
+            onActivate: () => { setActiveInfoBar(i); sfx.move(); },
+            onSelect: () => { if (activeInfoBar !== i) { setActiveInfoBar(i); sfx.move(); } },
+          })}
         >
           <div className="sc-info-bar">
             <span style={{ fontSize: '24px', marginLeft: '14px', marginRight: '8px' }}>{detail.icon}</span>

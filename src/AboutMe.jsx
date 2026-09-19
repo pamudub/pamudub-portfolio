@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { sfx } from "./sfx";
+import { makeTouchSelectHandlers } from "./useTouchSelect";
 import { profile } from "./portfolioData";
 import char1 from "./assets/char1.png";
 import char2 from "./assets/char2.png";
@@ -680,12 +681,11 @@ export default function AboutMe() {
             <div className="sc-bar-red" />
             <div
               className="sc-bar"
-              onClick={() => {
-                setActive(i);
-                setRevealed(true);
-                sfx.confirm();
-              }}
-              onMouseEnter={() => { if (active !== i) { setActive(i); sfx.move(); } }}
+              {...makeTouchSelectHandlers({
+                isActive: active === i,
+                onActivate: () => { setActive(i); sfx.move(); },
+                onSelect: () => { setActive(i); setRevealed(true); sfx.confirm(); },
+              })}
             >
               <img className="sc-char" src={CHARS[i]} alt="" />
               <div className="sc-bar-fill" />

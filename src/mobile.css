@@ -5,13 +5,30 @@
 
 @media (max-width: 768px) {
 
-  /* ── พื้นฐานทุกหน้า ── */
-  body {
+  /* ── พื้นฐานทุกหน้า: เปิดให้ปัดเลื่อนได้ + ลบ tap highlight สีฟ้า ── */
+  html, body {
     overflow-x: hidden !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+  /* หัวข้อ/ปุ่มทุกหน้า: แตะได้ลื่น ไม่มีดีเลย์ double-tap zoom */
+  .p3-row, .sc-bar, .sc-bar-outer, .resume-card-wrap, .sp-btn-list > div,
+  a.p3-row-clone, .sc-info-bar-wrap {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   #menu-screen {
     width: 100% !important;
-    height: 100dvh !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    overflow-y: visible !important;
+  }
+  /* กัน webkit ตัดการ scroll เมื่อ content สั้นกว่าจอ */
+  #root {
+    min-height: 100dvh;
   }
 
   /* ── หน้าเมนูหลัก (P3Menu) ── */
@@ -20,13 +37,14 @@
     justify-content: center !important;
   }
   .p3-menu {
-    padding: 24px !important;
+    padding: 32px 20px !important;
+    gap: 6px !important;
   }
-  .p3-row { margin-top: 2px !important; }
-  .p3-row .p3-label-base { font-size: clamp(26px, 8vw, 44px) !important; }
+  .p3-row { margin-top: 6px !important; }
+  /* ขนาดฟอนต์ต่อแถวจัดที่ inline style ใน P3Menu.jsx (min(px, vw)) — ไม่ override ที่นี่ */
   .p3-name-tag {
-    font-size: 44px !important;
-    top: 10px !important;
+    font-size: 34px !important;
+    top: 12px !important;
     left: 12px !important;
   }
   .p3-hint { display: none !important; } /* ปุ่ม ↑↓↵ ไม่มีบนมือถือ */

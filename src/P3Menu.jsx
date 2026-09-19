@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { sfx } from "./sfx";
+import { makeTouchSelectHandlers } from "./useTouchSelect";
 
 const ITEMS = [
   { id: "about", label: "ABOUT ME", page: "about", fontSize: 80, offsetX: 0, offsetY: 0, skew: -6, skewY: 10 },
@@ -232,6 +233,9 @@ export default function P3Menu({ onNavigate }) {
             const estW = item.label.length * item.fontSize * 0.6 + 80;
             const estH = item.fontSize * 0.94;
             const clipFn = CLIP_SHAPES[i] ?? CLIP_SHAPES[0];
+            // มือถือ: ย่อตามความกว้างจอ (14.5vw ที่ 80px) แต่คงสัดส่วนลำดับขนาดระหว่างแถว
+            // PC: ค่า vw ล้น cap → ได้ขนาด px เดิมทุกแถว
+            const fs = `min(${item.fontSize}px, ${(item.fontSize * 0.18125).toFixed(3)}vw)`;
 
             return (
               <a
@@ -243,8 +247,11 @@ export default function P3Menu({ onNavigate }) {
                   marginTop: item.offsetY,
                   transitionDelay: mounted ? `${i * 80}ms` : "0ms",
                 }}
-                onClick={(e) => { e.preventDefault(); onNavigate?.(item.page); }}
-                onMouseEnter={() => activate(i)}
+                {...makeTouchSelectHandlers({
+                  isActive,
+                  onActivate: () => activate(i),
+                  onSelect: (e) => onNavigate?.(item.page),
+                })}
                 aria-current={isActive ? "page" : undefined}
               >
                 <div className="p3-glow" />
@@ -271,13 +278,13 @@ export default function P3Menu({ onNavigate }) {
                     }}
                   />
                   <div className="p3-label-wrap" style={{ opacity }}>
-                    <span className="p3-label-base p3-label-dark" style={{ fontSize: item.fontSize }}>
+                    <span className="p3-label-base p3-label-dark" style={{ fontSize: fs }}>
                       {item.label}
                     </span>
                     <span
                       className="p3-label-base p3-label-bright"
                       style={{
-                        fontSize: item.fontSize,
+                        fontSize: fs,
                         clipPath: clipFn(estW, estH),
                       }}
                     >

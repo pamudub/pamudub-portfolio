@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { sfx } from "./sfx";
+import { makeTouchSelectHandlers } from "./useTouchSelect";
 import { profile } from "./portfolioData";
 
 const ITEMS = [
@@ -381,12 +382,11 @@ export default function ResumePage({ src }) {
               key={item.id}
               className={`resume-card-wrap${active === index ? " active" : ""}${mounted ? " mounted" : ""}`}
               style={{ transitionDelay: `${index * 55}ms` }}
-              onMouseEnter={() => {
-                if (active !== index) { setActive(index); sfx.move(); }
-              }}
-              onClick={() => {
-                if (active !== index) { setActive(index); sfx.move(); }
-              }}
+              {...makeTouchSelectHandlers({
+                isActive: active === index,
+                onActivate: () => { if (active !== index) { setActive(index); sfx.move(); } },
+                onSelect: () => { if (active !== index) { setActive(index); sfx.move(); } },
+              })}
             >
               <div className="resume-card">
                 <div className="resume-badge">

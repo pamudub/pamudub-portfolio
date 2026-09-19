@@ -251,7 +251,7 @@ export default function P3Menu({ onNavigate }) {
                 {...makeTouchSelectHandlers({
                   isActive,
                   onActivate: () => activate(i),
-                  onSelect: (e) => onNavigate?.(item.page),
+                  onSelect: (e) => { sfx.confirm(); onNavigate?.(item.page); },
                 })}
                 aria-current={isActive ? "page" : undefined}
               >

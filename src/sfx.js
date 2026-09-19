@@ -21,6 +21,19 @@ if (typeof window !== "undefined") {
   try {
     muted = window.localStorage.getItem("p3sfx-muted") === "1";
   } catch (e) { /* ignore */ }
+
+  // ── Unlock เสียงตั้งแต่ gesture แรก (สำคัญมากบนมือถือ) ──
+  // iOS ไม่นับ touchstart เป็น gesture ที่ปลดล็อกเสียงได้ ต้องเป็น touchend/click
+  // เลยฟังหลาย event ไว้เลย ใครมาก่อนเจอก่อน — ปลุก context ให้พร้อมก่อนเสียงแรก
+  const unlock = () => {
+    const c = ac();
+    if (c && c.state === "suspended") c.resume().catch(() => {});
+  };
+  window.addEventListener("pointerdown", unlock, { passive: true });
+  window.addEventListener("touchstart", unlock, { passive: true });
+  window.addEventListener("touchend", unlock, { passive: true });
+  window.addEventListener("click", unlock, { passive: true });
+  window.addEventListener("keydown", unlock);
 }
 
 function tone({ freq = 880, type = "square", dur = 0.07, vol = 0.08, slide = 0, delay = 0 }) {

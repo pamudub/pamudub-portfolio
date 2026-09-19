@@ -109,7 +109,7 @@ export default function AboutMe() {
                 key={item.id}
                 role="tab"
                 aria-selected={idx === active}
-                onClick={() => setActive(idx)}
+                onClick={() => { if (active !== idx) { setActive(idx); sfx.move(); } }}
                 className={`sc-tab-button ${idx === active ? 'active' : ''}`}
               >
                 {item.label}

@@ -1,0 +1,182 @@
+/* ═══ Mobile / จอเล็ก (≤ 768px) ═══
+   เว็บนี้ออกแบบเดิมสำหรับจอคอม (ฟอนต์ 50-108px, แผงกว้าง 39-47vw)
+   หมายเหตุ: แต่ละหน้าฉีด <style> ของตัวเองทีหลังไฟล์นี้ จึงต้องใช้ !important
+   เพื่อให้กฎ responsive ชนะแน่นอน */
+
+@media (max-width: 768px) {
+
+  /* ── พื้นฐานทุกหน้า ── */
+  body {
+    overflow-x: hidden !important;
+  }
+  #menu-screen {
+    width: 100% !important;
+    height: 100dvh !important;
+  }
+
+  /* ── หน้าเมนูหลัก (P3Menu) ── */
+  .p3-overlay {
+    padding-left: 0 !important;
+    justify-content: center !important;
+  }
+  .p3-menu {
+    padding: 24px !important;
+  }
+  .p3-row { margin-top: 2px !important; }
+  .p3-row .p3-label-base { font-size: clamp(26px, 8vw, 44px) !important; }
+  .p3-name-tag {
+    font-size: 44px !important;
+    top: 10px !important;
+    left: 12px !important;
+  }
+  .p3-hint { display: none !important; } /* ปุ่ม ↑↓↵ ไม่มีบนมือถือ */
+
+  /* ── หน้า Socials + AboutMe (ใช้ sc-bar ร่วมกัน) ──
+     ปกติ .sc-root เป็น absolute inset:0 ทำให้กล่องสถิติ static ที่ตามมาไหลไปทับหัวข้อ
+     บนมือถือเลยเปลี่ยนเป็น static ให้ทุกอย่างเรียงกันตามลำดับ DOM */
+  .sc-root {
+    position: static !important;
+    padding: 6vh 4vw 0 !important;
+    gap: 10px !important;
+  }
+  .sc-bar-outer { width: 92vw !important; }
+  .sc-bar { width: 92vw !important; height: 56px !important; }
+  .sc-bar-red { width: 92vw !important; height: 56px !important; }
+  .sc-bar-outer.active .sc-bar { height: 76px !important; }
+  .sc-bar-outer.active .sc-bar-red { height: 76px !important; }
+  .sc-role {
+    font-size: 30px !important;
+    width: 88px !important;
+    padding: 0 8px 0 4px !important;
+  }
+  .sc-main { padding-left: 16px !important; }
+  .sc-label { font-size: 19px !important; letter-spacing: 2px !important; }
+  .sc-main-top { padding-right: 0 !important; }
+  .sc-char { max-width: 80px !important; }
+
+  /* กล่องสถิติ → เลิก fixed ขวา เรียงเต็มกว้างใต้รายการ */
+  .sc-info-bar-wrap {
+    position: static !important;
+    width: 92vw !important;
+    left: auto !important;
+    right: auto !important;
+    margin: 4px auto !important;
+    height: 44px !important;
+    /* บนมือถือพื้นหลังเข้ม แถวที่ไม่ selected จะโปร่งจนอ่านไม่ออก → ใส่พื้นให้ทุกแถว */
+    background: rgba(6, 14, 40, 0.88) !important;
+    border-radius: 8px !important;
+  }
+  .sc-info-bar-text { font-size: 15px !important; letter-spacing: 1px !important; padding: 0 8px !important; color: #8df6ff !important; }
+  .sc-info-bar-count {
+    font-size: 14px !important;
+    width: auto !important;
+    margin-right: 10px !important;
+    white-space: nowrap !important;
+  }
+  .sc-info-bar-box { font-size: 13px !important; padding: 0 8px !important; }
+
+  .sc-right-nav { display: none !important; } /* ปุ่ม LB/RB ไม่จำเป็นบนมือถือ */
+  .sc-footer { display: none !important; }
+
+  /* ── AboutMe: reveal panel → เรียงใต้การ์ด ไม่หมุน ไม่ทับ ──
+     (DOM ของ AboutMe วาง panel ไว้ก่อน sc-root จึงต้องสั่ง order ผ่าน flex ของ parent) */
+  #menu-screen:has(.sc-reveal-panel) {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  #menu-screen .sc-root { order: 1; }
+  .sc-reveal-panel {
+    position: static !important;
+    order: 2;
+    width: 92vw !important;
+    margin: 10px auto 16px !important;
+    transform: none !important;
+    padding: 10px !important;
+  }
+  .sc-reveal-upper-bar { position: static !important; height: auto !important; padding: 8px 10px !important; }
+  .sc-reveal-upper-line {
+    font-size: clamp(14px, 4.6vw, 24px) !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  .sc-reveal-lower-bar {
+    position: static !important;
+    width: 100% !important;
+    margin-top: 8px !important;
+    font-size: clamp(12px, 3.8vw, 18px) !important;
+  }
+
+  /* ── หน้า Resume ──
+     ต้องใช้ relative ไม่ใช่ static — เพื่อให้ z-index:10 ยังทำงาน
+     (ไม่งั้นการ์ดจะโดน .resume-entry-mask z9 บังหมด) แล้วเรียงด้วย flex */
+  .resume-overlay {
+    position: relative !important;
+    z-index: 10 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  .resume-stack {
+    position: static !important;
+    order: 1;
+    width: 94vw !important;
+    margin: 4vh 0 0 !important;
+    transform: none !important;
+    padding: 0 3vw !important;
+  }
+  .resume-list-tag { font-size: 44px !important; margin: 0 0 4px 6px !important; }
+  .resume-card { height: 80px !important; }
+  .resume-card-wrap.active .resume-card { height: 96px !important; }
+  .resume-title { font-size: 30px !important; }
+  .resume-card-inner { padding: 10px 14px 10px 48px !important; }
+  .resume-badge { width: 40px !important; height: 50px !important; left: -6px !important; top: 8px !important; }
+  .resume-badge-text { font-size: 24px !important; }
+  .resume-rank-number { font-size: 40px !important; }
+  .resume-rank-label { font-size: 16px !important; }
+  .resume-subtitle { font-size: 16px !important; }
+  .resume-subtitle-bar { left: 46px !important; height: 24px !important; bottom: 8px !important; }
+
+  /* แผงรายละเอียด → เต็มกว้าง เรียงใต้รายการ */
+  .resume-detail-panel {
+    position: relative !important;
+    order: 2;
+    top: auto !important;
+    right: auto !important;
+    width: 94vw !important;
+    min-height: unset !important;
+    margin: 12px auto 20px !important;
+    padding: 14px !important;
+  }
+  .resume-detail-top { min-height: 64px !important; padding: 0 10px !important; gap: 8px !important; }
+  .resume-detail-top-title { font-size: 22px !important; }
+  .resume-detail-top-index, .resume-detail-top-progress { font-size: 22px !important; }
+  .resume-detail-list { margin-top: 10px !important; gap: 6px !important; }
+  .resume-detail-row { min-height: 42px !important; gap: 8px !important; padding: 0 8px !important; }
+  .resume-detail-row-title { font-size: 14px !important; }
+  .resume-detail-row-index { font-size: 15px !important; }
+  .resume-detail-status { font-size: 12px !important; padding: 4px 7px !important; }
+  .resume-detail-bottom { margin-top: 12px !important; padding: 12px !important; }
+  .resume-detail-bottom-title { font-size: 20px !important; margin-bottom: 8px !important; }
+  .resume-detail-bullet { font-size: 13px !important; }
+
+  /* ── หน้า COMMISSIONS / Side Projects ── */
+  .sp-container {
+    position: static !important;
+    padding: 5vh 4vw 0 !important;
+  }
+  .sp-title { font-size: 48px !important; }
+  .sp-subtitle { font-size: 14px !important; max-width: 92vw !important; }
+  .sp-btn-list { margin-top: 12px !important; }
+  .sp-loading, .sp-error { font-size: 14px !important; }
+
+  /* ปุ่ม BACK / CONTACT → เรียงแนวตั้ง ไม่ล้นจอ */
+  .sp-btn-list > div[style] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    margin-top: 24px !important;
+  }
+  .p3-row-clone .p3-label-base-clone { font-size: 28px !important; }
+}

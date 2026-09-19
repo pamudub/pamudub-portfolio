@@ -16,6 +16,6 @@ git add -A
 git commit -m 'Deploy to GitHub Pages'
 
 # Push to gh-pages branch
-git push -f git@github.com:gifindoroo-byte/pamudub-portfolio.git main:gh-pages
+git push -f git@github.com:pamudub/pamudub-portfolio.git main:gh-pages
 
 cd -

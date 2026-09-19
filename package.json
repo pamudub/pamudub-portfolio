@@ -4,10 +4,10 @@
   "version": "1.0.0",
   "description": "pamudub's Persona 3 themed portfolio website",
   "author": "pamudub",
-  "homepage": "https://gifindoroo-byte.github.io/pamudub-portfolio",
+  "homepage": "https://pamudub.github.io/pamudub-portfolio",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gifindoroo-byte/pamudub-portfolio.git"
+    "url": "https://github.com/pamudub/pamudub-portfolio.git"
   },
   "keywords": [
     "portfolio",

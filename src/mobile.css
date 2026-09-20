@@ -134,13 +134,14 @@
 
   /* ภาพตัวละครใหญ่ → จัดเข้า flow เป็นภาพเต็มระหว่างแถบกับแผงข้อมูล
      (เดิม absolute ลอยทับข้อความฝั่งขวาและล้นจอครึ่งหนึ่ง) */
-  /* ภาพตัวละครใหญ่ → ตัดให้เห็นถึงปลายคาง (ไม่เห็นตัวเต็มซึ่งยาวเกินไป) */
+  /* ภาพตัวละครใหญ่ → ตัดพื้นว่างด้านบนทิ้ง แล้วเลื่อนกรอบลงให้เห็นถึงปาก
+     (วัดจากไฟล์จริง: พื้นว่างบน ~10% ของความกว้าง, ปากอยู่ลึกกว่ากรอบเดิม ~80px) */
   .sc-main-portrait-shell {
     position: static !important;
     order: 2;
     width: 88vw !important;
-    height: 92vw !important;
-    max-height: 430px !important;
+    height: 104vw !important;
+    max-height: 470px !important;
     margin: 12px auto 0 !important;
     right: auto !important;
     transform: none !important;
@@ -149,10 +150,11 @@
   }
   .sc-main-portrait {
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
     max-height: none !important;
     object-fit: cover !important;
-    object-position: top center !important;
+    /* 30% = เลื่อนหน้าต่างภาพลง: ตัดพื้นฟ้าว่างบน + โชว์ปาก */
+    object-position: center 30% !important;
     transform: none !important;
   }
 
@@ -302,6 +304,7 @@
   .sc-label { font-size: 16px !important; }
   .sc-main { padding-right: 76px !important; }
   .sc-char { max-width: 78px !important; right: 8px !important; }
+  .sc-main-portrait-shell { height: 55vh !important; }
 
   .resume-stack { margin-top: 2.5vh !important; }
   .resume-card { height: 62px !important; }

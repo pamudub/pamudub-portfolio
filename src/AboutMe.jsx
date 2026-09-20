@@ -151,7 +151,7 @@ export default function AboutMe() {
               <div className="sc-reveal-upper-line" key={line}>{renderMixedLang(line)}</div>
             ))}
           </div>
-          <div className="sc-reveal-lower-bar">{renderMixedLang(REVEAL_CONTENT[active].lower)}</div>
+          <div className="sc-reveal-lower-bar"><span className="sc-lower-text">{renderMixedLang(REVEAL_CONTENT[active].lower)}</span></div>
         </div>
       )}
       {revealed && (
@@ -404,15 +404,17 @@ export default function AboutMe() {
         }
 
         /* PC: จัดข้อความในแถบล่างให้อยู่กลางบล็อกทั้งแนวนอน-แนวตั้ง (มือถือคงเดิม)
-           ช่องว่างที่ใช้เป็น non-breaking space (จาก renderMixedLang) จึงไม่ถูก flex ตัดทิ้ง */
+           ห่อข้อความเป็น span เดียว (sc-lower-text) → flex จัดกลางแนวนอน,
+           text-align จัดกลางบรรทัดที่ตัดคำภายใน span */
         @media (min-width: 769px) {
           .sc-reveal-lower-bar {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-align: center !important;
           }
+          .sc-reveal-lower-bar .sc-lower-text { display: inline; }
         }
 
         @keyframes sc-right-nav-pop {

@@ -38,15 +38,23 @@ const ROLES = [
   { text: "PARTY", color: "#4a8fff", bg: "rgba(74,143,255,0.12)", border: "rgba(74,143,255,0.5)" },
 ];
 
-// ครอบช่วงอักษรไทยด้วย span.th-dim — บนมือถือให้ข้อความไทยจางเป็นรองภาษาอังกฤษ
+// ครอบช่วงอักษรไทยด้วย span.th-dim — โทนเดียวกับอังกฤษแต่เบากว่าเล็กน้อย (ทั้ง PC และมือถือ)
+// + เติมช่องว่างที่รอยต่อไทย↔อังกฤษให้เว้นวรรคอ่านลื่นเสมอ
 function renderMixedLang(text) {
   const s = String(text);
   if (!/[\u0E00-\u0E7F]/.test(s)) return s;
-  return s.split(/([\u0E00-\u0E7F]+)/g).map((p, i) =>
-    /[\u0E00-\u0E7F]/.test(p)
-      ? <span key={i} className="th-dim">{p}</span>
-      : <span key={i}>{p}</span>
-  );
+  const parts = s.split(/([\u0E00-\u0E7F]+)/g);
+  return parts.map((p, i) => {
+    const isTh = /[\u0E00-\u0E7F]/.test(p);
+    const next = parts[i + 1];
+    const boundary = next !== undefined && next !== "" && isTh !== /[\u0E00-\u0E7F]/.test(next);
+    return (
+      <span key={i} className={isTh ? "th-dim" : undefined}>
+        {p}
+        {boundary ? " " : null}
+      </span>
+    );
+  });
 }
 
 const ITEMS = [
@@ -162,7 +170,7 @@ export default function AboutMe() {
         </div>
       )}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,700;1,700&family=Montserrat:wght@300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,700;1,700&family=Montserrat:wght@300&family=Noto+Sans+Thai:wght@300;400;700&display=swap');
 
         .sc-root {
           position: absolute;
@@ -323,7 +331,7 @@ export default function AboutMe() {
 
         .sc-tab-button {
           flex: 1;
-          font-family: 'Barlow Condensed', sans-serif;
+          font-family: 'Barlow Condensed', 'Noto Sans Thai', sans-serif;
           font-size: 14px;
           font-weight: 700;
           letter-spacing: 1px;
@@ -352,15 +360,15 @@ export default function AboutMe() {
         }
 
         .sc-reveal-upper-line {
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'Montserrat', 'Noto Sans Thai', sans-serif;
           font-weight: 300;
           font-size: 20px;
           letter-spacing: 0.5px;
           line-height: 1.15;
         }
-        /* ช่วงอักษรไทย (จาก renderMixedLang) → โทนเดียวกับอังกฤษแต่จางกว่า ใช้ทั้ง PC และมือถือ */
+        /* ช่วงอักษรไทย (จาก renderMixedLang) → โทนใกล้เคียงอังกฤษ อ่านง่าย ใช้ทั้ง PC และมือถือ */
         .sc-reveal-panel .th-dim {
-          color: rgba(255, 255, 255, 0.55);
+          color: rgba(255, 255, 255, 0.8);
         }
 
         .sc-reveal-lower-bar {
@@ -379,7 +387,7 @@ export default function AboutMe() {
           align-items: center;
           justify-content: flex-start;
           color: #fff;
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'Montserrat', 'Noto Sans Thai', sans-serif;
           font-weight: 300;
           font-size: 22px;
           letter-spacing: 0.4px;
@@ -408,7 +416,7 @@ export default function AboutMe() {
           animation: sc-right-nav-pop 0.38s cubic-bezier(0.22,1,0.36,1) both;
         }
         .sc-right-nav .sc-nav-btn {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 100px;
           letter-spacing: 3px;
           line-height: 1;
@@ -429,7 +437,7 @@ export default function AboutMe() {
           flex-shrink: 0;
         }
         .sc-right-nav .sc-nav-arrow {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 22px;
           color: #c4001a;
           display: inline-block;
@@ -546,7 +554,7 @@ export default function AboutMe() {
           display: flex;
           align-items: center;
           flex-shrink: 0;
-          font-family: 'Anton', sans-serif;
+          font-family: 'Anton', 'Noto Sans Thai', sans-serif;
           font-size: 50px;
           letter-spacing: -2px;
           color: #ffffff;
@@ -573,7 +581,7 @@ export default function AboutMe() {
         }
 
         .sc-icon {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 22px;
           width: 32px;
           text-align: center;
@@ -585,7 +593,7 @@ export default function AboutMe() {
         .sc-bar-outer.active .sc-icon { color: rgba(255,255,255,0.25); }
 
         .sc-label {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 28px;
           letter-spacing: 4px;
           line-height: 1;
@@ -617,7 +625,7 @@ export default function AboutMe() {
         }
 
         .sc-stat-tag {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 9px;
           letter-spacing: 1.5px;
           padding: 1px 4px;
@@ -628,7 +636,7 @@ export default function AboutMe() {
         }
 
         .sc-stat-num {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 26px;
           font-style: italic;
           line-height: 1;
@@ -677,7 +685,7 @@ export default function AboutMe() {
           bottom: 20px; right: 28px;
           display: flex; flex-direction: column;
           align-items: flex-end; gap: 5px;
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           z-index: 14;
           opacity: 0;
           transition: opacity 0.4s ease 0.6s;

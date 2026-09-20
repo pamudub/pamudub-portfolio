@@ -132,8 +132,14 @@
     width: auto !important;
     margin-right: 10px !important;
     white-space: nowrap !important;
+    color: var(--p3-bg-dark) !important; /* เดิมสีฟ้าใสบนพื้นฟ้าอ่อน — มองแทบไม่เห็น */
   }
   .sc-info-bar-box { font-size: 13px !important; padding: 0 8px !important; }
+
+  /* แถวข้อมูลโผล่ทีละแถว (เดิม delay เพียง 50ms จึงดูเหมือนขึ้นพร้อมกันหมด) */
+  .sc-info-bar-wrap[data-row="1"] { animation-delay: 0.12s !important; }
+  .sc-info-bar-wrap[data-row="2"] { animation-delay: 0.24s !important; }
+  .sc-info-bar-wrap[data-row="3"] { animation-delay: 0.36s !important; }
 
   .sc-right-nav { display: none !important; } /* ปุ่ม LB/RB ไม่จำเป็นบนมือถือ */
   .sc-footer { display: none !important; }

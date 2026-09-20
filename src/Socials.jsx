@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { sfx } from "./sfx";
 import { makeTouchSelectHandlers } from "./useTouchSelect";
-import { profile } from "./portfolioData";
 import char1 from "./assets/char1.png";
 import char2 from "./assets/char2.png";
 import char3 from "./assets/char3.png";
 import bgVideo from "./assets/main3.mp4";
-import newsign from "./assets/newsign.png";
 import icon1 from "./assets/icon1.png";
 import icon2 from "./assets/icon2.png";
 import icon3 from "./assets/icon3.png";
@@ -91,7 +89,7 @@ export default function Socials() {
     <div id="menu-screen">
       <video src={bgVideo} autoPlay loop muted playsInline />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,700;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,700;1,700&family=Noto+Sans+Thai:wght@300;400;700&display=swap');
 
         .sc-root {
           position: absolute;
@@ -236,7 +234,7 @@ export default function Socials() {
         }
 
         .sc-icon {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 22px;
           width: 32px;
           text-align: center;
@@ -248,7 +246,7 @@ export default function Socials() {
         .sc-bar-outer.active .sc-icon { color: rgba(255,255,255,0.25); }
 
         .sc-label {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 32px;
           letter-spacing: 6px;
           line-height: 1;
@@ -271,7 +269,7 @@ export default function Socials() {
           50%       { transform: translateX(5px); opacity: 0.4; }
         }
         .sc-nav-btn {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 12px;
           letter-spacing: 2px;
           color: #111;
@@ -321,7 +319,7 @@ export default function Socials() {
           animation: sc-right-nav-pop 0.38s cubic-bezier(0.22,1,0.36,1) both;
         }
         .sc-right-nav .sc-nav-btn {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 100px;
           letter-spacing: 3px;
           line-height: 1;
@@ -334,7 +332,7 @@ export default function Socials() {
           padding: 0 6px;
         }
         .sc-right-nav .sc-nav-label {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 28px;
           letter-spacing: 3px;
           line-height: 1;
@@ -343,7 +341,7 @@ export default function Socials() {
           padding: 0 8px;
         }
         .sc-right-nav .sc-nav-arrow {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 22px;
           color: #c4001a;
           display: inline-block;
@@ -407,7 +405,7 @@ export default function Socials() {
         }
         .sc-info-bar-text {
           flex: 1;
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 32px;
           letter-spacing: 2px;
           color: #8df6ff;
@@ -431,7 +429,7 @@ export default function Socials() {
         }
 
         .sc-info-bar-count {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           font-size: 34px;
           letter-spacing: 1px;
           color: #8df6ff;
@@ -451,7 +449,7 @@ export default function Socials() {
           bottom: 20px; right: 28px;
           display: flex; flex-direction: column;
           align-items: flex-end; gap: 5px;
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'Bebas Neue', 'Noto Sans Thai', sans-serif;
           z-index: 50;
           opacity: 0;
           transition: opacity 0.4s ease 0.6s;
@@ -513,6 +511,7 @@ export default function Socials() {
         <div
           className={`sc-info-bar-wrap${activeInfoBar === i ? " selected" : ""}`}
           key={`bar-${active}-${i}`}
+          data-row={i + 1}
           style={{ top: `${155 + i * 68}px`, animationDelay: `${i * 50}ms` }}
           {...makeTouchSelectHandlers({
             isActive: activeInfoBar === i,

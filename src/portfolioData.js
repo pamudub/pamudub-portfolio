@@ -2,7 +2,7 @@ export const profile = {
   name: "Wawat Tiantongdee",
   username: "pamudub",
   title: "Voice Actor, Youtuber",
-  bio: "Voice Actor และ Youtuber 🎬 ชอบตัดต่อคลิป ดูแลเพจ Facebook | ใช้ Premiere Pro 3 | ลงได้ลง ลงๆไปเดี่ยวก็ดัง 🚀",
+  bio: "Voice Actor และ YouTuber 🎬 ชอบตัดต่อคลิป ดูแลเพจ Facebook ใช้ Premiere Pro 🎞️ ลงได้ลง ลง ๆ ไปเดี่ยวก็ดัง 🚀",
   intro:
     "Voice Actor ที่ชื่นชอบการตัดต่อคลิป ดูแลเพจ Facebook และสร้างสรรค์เนื้อหาบน YouTube, TikTok",
   location: "Thewet, Bangkok",
@@ -15,9 +15,8 @@ export const profile = {
     { label: "Primary Focus", value: "Video Editing / Content Creation" },
   ],
   quickFacts: [
-    { label: "Languages", value: "Thai, English" },
-    { label: "Approach", value: "ลงได้ลง ลงๆไปเดี่ยวก็ดัง" },
-    { label: "Currently", value: "กำลังฝึกใช้งาน claude, freebuff, chatgptastra" },
+    { label: "Languages", value: "Thai, English" },    { label: "Approach", value: "ลงได้ลง ลง ๆ ไปเดี่ยวก็ดัง" },
+    { label: "Currently", value: "กำลังฝึกใช้งาน Claude, Freebuff, ChatGPT Astra" },
     { label: "GitHub", value: "@pamudub" },
   ],
   learning: [

@@ -39,19 +39,21 @@ const ROLES = [
 ];
 
 // ครอบช่วงอักษรไทยด้วย span.th-dim — โทนเดียวกับอังกฤษแต่เบากว่าเล็กน้อย (ทั้ง PC และมือถือ)
-// + เติมช่องว่างที่รอยต่อไทย↔อังกฤษให้เว้นวรรคอ่านลื่นเสมอ
+// + เติมช่องว่างที่รอยต่อไทย↔อังกฤษ (เฉพาะจุดที่ยังไม่มีช่องว่างอยู่แล้ว → ไม่กลายเป็นช่องว่างซ้อน)
 function renderMixedLang(text) {
   const s = String(text);
   if (!/[\u0E00-\u0E7F]/.test(s)) return s;
   const parts = s.split(/([\u0E00-\u0E7F]+)/g);
+  const isTh = (p) => /[\u0E00-\u0E7F]/.test(p);
   return parts.map((p, i) => {
-    const isTh = /[\u0E00-\u0E7F]/.test(p);
+    if (p === "") return null;
     const next = parts[i + 1];
-    const boundary = next !== undefined && next !== "" && isTh !== /[\u0E00-\u0E7F]/.test(next);
+    const boundary = next !== undefined && next !== "" && isTh(p) !== isTh(next);
+    const needsSpace = boundary && !/^\s/.test(next); // ถ้าข้างหน้าช่วงถัดไปมีช่องว่างอยู่แล้ว ไม่ต้องเติม
     return (
-      <span key={i} className={isTh ? "th-dim" : undefined}>
+      <span key={i} className={isTh(p) ? "th-dim" : undefined}>
         {p}
-        {boundary ? " " : null}
+        {needsSpace ? " " : null}
       </span>
     );
   });
@@ -395,6 +397,8 @@ export default function AboutMe() {
           padding-left: 22px;
           text-align: left;
           z-index: 60;
+          display: block; /* เดิม flex — ตัดช่องว่างหัว/ท้าย span ทิ้ง ทำให้ไทยติดอังกฤษ */
+          white-space: pre-wrap; /* คงช่องว่างที่ renderMixedLang เติมไว้ */
         }
 
         @keyframes sc-right-nav-pop {

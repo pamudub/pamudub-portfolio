@@ -358,6 +358,11 @@ export default function AboutMe() {
           letter-spacing: 0.5px;
           line-height: 1.15;
         }
+        /* ช่วงอักษรไทย (จาก renderMixedLang) → โทนเดียวกับอังกฤษแต่จางกว่า ใช้ทั้ง PC และมือถือ */
+        .sc-reveal-panel .th-dim {
+          color: rgba(255, 255, 255, 0.55);
+        }
+
         .sc-reveal-lower-bar {
           position: absolute;
           top: 58%;

@@ -13,6 +13,11 @@ const ITEMS = [
 
 export default function ResumePage({ src }) {
   const navigate = useNavigate();
+  // มือถือ: เลื่อนจอไปที่แผงรายละเอียดทันทีเมื่อแตะเลือกหัวข้อ (PC แสดงครบจอเดียว ไม่ต้องเลื่อน)
+  const scrollToDetail = () => {
+    if (!window.matchMedia("(max-width: 768px)").matches) return;
+    setTimeout(() => document.querySelector(".resume-detail-panel")?.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+  };
   const [active, setActive] = useState(0);
   const [mounted, setMounted] = useState(false);
 
@@ -386,6 +391,7 @@ export default function ResumePage({ src }) {
                 isActive: active === index,
                 onActivate: () => { if (active !== index) { setActive(index); sfx.move(); } },
                 onSelect: () => { if (active !== index) { setActive(index); sfx.move(); } },
+                onTap: () => scrollToDetail(),
               })}
             >
               <div className="resume-card">

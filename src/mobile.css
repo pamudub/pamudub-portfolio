@@ -97,19 +97,36 @@
     object-position: top center !important;
   }
 
-  /* กล่องสถิติ → เลิก fixed ขวา เรียงเต็มกว้างใต้รายการ */
+  /* กล่องสถิติ → เลิก fixed ขวา เรียงเต็มกว้างใต้รายการ
+     ทุกแถวใช้พื้นฟ้าอ่อนแบบแถว selected (ตัวหนังสือเดิมสีดำ บนพื้นเข้มอ่านไม่ออก) */
   .sc-info-bar-wrap {
     position: static !important;
     width: 92vw !important;
     left: auto !important;
     right: auto !important;
     margin: 4px auto !important;
-    height: 44px !important;
-    /* บนมือถือพื้นหลังเข้ม แถวที่ไม่ selected จะโปร่งจนอ่านไม่ออก → ใส่พื้นให้ทุกแถว */
-    background: rgba(6, 14, 40, 0.88) !important;
+    height: 46px !important;
+    background: #111 !important;
+    padding: 1.5px !important;
     border-radius: 8px !important;
   }
-  .sc-info-bar-text { font-size: 15px !important; letter-spacing: 1px !important; padding: 0 8px !important; color: #8df6ff !important; }
+  .sc-info-bar-wrap .sc-info-bar {
+    background: var(--p3-blue-light) !important;
+    border-radius: 7px !important;
+  }
+  /* แถบแดงคาดบน — ทุกแถว (ดีไซน์ Persona) */
+  .sc-info-bar-wrap .sc-info-bar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: #c4001a;
+    z-index: 1;
+  }
+  .sc-info-bar-wrap.selected {
+    transform: translateX(-4px) !important;
+  }
+  .sc-info-bar-text { font-size: 15px !important; letter-spacing: 1px !important; padding: 0 8px !important; color: var(--p3-bg-dark) !important; }
   .sc-info-bar-count {
     font-size: 14px !important;
     width: auto !important;
@@ -210,10 +227,9 @@
     font-size: clamp(14px, 4vw, 19px) !important;
     line-height: 1.4 !important;
   }
-  /* ข้อความไทยในแผงข้อมูล → โทนใกล้เคียงอังกฤษแต่ไม่เด่นเท่า (เป็นรอง) */
-  .sc-reveal-panel .th-dim { color: rgba(255, 255, 255, 0.55) !important; }
-  /* ตอนเลื่อนจอไปที่แผงข้อมูล ให้เว้นระยะพองาม */
+  /* ข้อความไทยในแผงข้อมูล → โทนใกล้เคียงอังกฤษแต่ไม่เด่นเท่า (กฎสีอยู่ใน AboutMe.jsx ใช้ทุกจอ) */
   .sc-reveal-panel { scroll-margin-top: 10px; }
+  .resume-detail-panel { scroll-margin-top: 10px; }
 
   /* ── หน้า Resume ──
      ต้องใช้ relative ไม่ใช่ static — เพื่อให้ z-index:10 ยังทำงาน

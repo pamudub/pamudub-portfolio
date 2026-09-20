@@ -19,7 +19,7 @@ const MAIN_IMAGES = [mainm, mainm2, mainf];
 
 const REVEAL_CONTENT = [
   {
-    upper: [`${profile.name}`, `${profile.title}`],
+    upper: [`${profile.name} GPA 3.61`, `${profile.title}`],
     lower: `${profile.location}`,
   },
   {

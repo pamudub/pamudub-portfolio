@@ -17,7 +17,7 @@ let gesture = null;            // gesture ปัจจุบัน { sx, sy, mov
 let lastTouchEnd = 0;          // เวลาที่นิ้วยกล่าสุด — ใช้แยก click จากการแตะ vs เมาส์จริง
 let lastTouchActivateAt = 0;   // กันเสียง hover ซ้ำจาก simulated mouseenter หลังแตะ
 
-export function makeTouchSelectHandlers({ isActive, onActivate, onSelect } = {}) {
+export function makeTouchSelectHandlers({ isActive, onActivate, onSelect, onTap } = {}) {
   return {
     // นิ้วแตะลง → เลือกทันที = effect แบบ hover บน PC
     onTouchStart: (e) => {
@@ -63,6 +63,7 @@ export function makeTouchSelectHandlers({ isActive, onActivate, onSelect } = {})
       const fromTouch = !!g || Date.now() - lastTouchEnd < 700;
       if (!fromTouch) { onSelect?.(e); return; } // คลิกเมาส์บน PC
       if (!g || g.moved) return;   // เป็นการปัด scroll ไม่ใช่แตะ
+      onTap?.(e);                  // แตะจริง (ทุก phase) — ใช้ทำ side effect เช่นเลื่อนจอ
       if (!g.wasActive) return;    // แตะครั้งแรก = เลือกอย่างเดียว ยังไม่เปิด
       onSelect?.(e);               // แตะซ้ำบนหัวข้อที่เลือกอยู่ = เปิด
     },

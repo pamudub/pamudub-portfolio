@@ -38,6 +38,17 @@ const ROLES = [
   { text: "PARTY", color: "#4a8fff", bg: "rgba(74,143,255,0.12)", border: "rgba(74,143,255,0.5)" },
 ];
 
+// ครอบช่วงอักษรไทยด้วย span.th-dim — บนมือถือให้ข้อความไทยจางเป็นรองภาษาอังกฤษ
+function renderMixedLang(text) {
+  const s = String(text);
+  if (!/[\u0E00-\u0E7F]/.test(s)) return s;
+  return s.split(/([\u0E00-\u0E7F]+)/g).map((p, i) =>
+    /[\u0E00-\u0E7F]/.test(p)
+      ? <span key={i} className="th-dim">{p}</span>
+      : <span key={i}>{p}</span>
+  );
+}
+
 const ITEMS = [
   {
     id: "about", label: "ABOUT ME", handle: profile.username, href: profile.links[0].href, icon: "👤", barIcon: icon1, bars: 1, newBars: [0], counts: ["1"],
@@ -71,6 +82,13 @@ export default function AboutMe() {
   const [revealed, setRevealed] = useState(false);
   const navigate = useNavigate();
 
+  // มือถือ: เลื่อนจอไปที่แผงข้อมูลทันทีเมื่อเลือก/เปลี่ยนหัวข้อ
+  // (PC แสดงครบในจอเดียว ไม่ต้องเลื่อน)
+  const scrollToPanel = () => {
+    if (!window.matchMedia("(max-width: 768px)").matches) return;
+    setTimeout(() => document.querySelector(".sc-reveal-panel")?.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+  };
+
   useEffect(() => {
     const v = document.querySelector('video');
     if (v) v.play().catch(() => { });
@@ -85,8 +103,8 @@ export default function AboutMe() {
     const onKey = (e) => {
       if (e.key === "ArrowUp") { setActive(i => Math.max(0, i - 1)); sfx.move(); }
       if (e.key === "ArrowDown") { setActive(i => Math.min(ITEMS.length - 1, i + 1)); sfx.move(); }
-      if (e.key === "Enter") { setRevealed(true); sfx.confirm(); }
-      if (e.key === "ArrowRight") { setRevealed(true); sfx.confirm(); }
+      if (e.key === "Enter") { setRevealed(true); sfx.confirm(); scrollToPanel(); }
+      if (e.key === "ArrowRight") { setRevealed(true); sfx.confirm(); scrollToPanel(); }
       if (e.key === "ArrowLeft") {
         if (revealed) { setRevealed(false); sfx.back(); }
         else { sfx.back(); navigate(-1); }
@@ -118,10 +136,10 @@ export default function AboutMe() {
           </div>
           <div className="sc-reveal-upper-bar">
             {REVEAL_CONTENT[active].upper.map((line) => (
-              <div className="sc-reveal-upper-line" key={line}>{line}</div>
+              <div className="sc-reveal-upper-line" key={line}>{renderMixedLang(line)}</div>
             ))}
           </div>
-          <div className="sc-reveal-lower-bar">{REVEAL_CONTENT[active].lower}</div>
+          <div className="sc-reveal-lower-bar">{renderMixedLang(REVEAL_CONTENT[active].lower)}</div>
         </div>
       )}
       {revealed && (
@@ -684,7 +702,8 @@ export default function AboutMe() {
               {...makeTouchSelectHandlers({
                 isActive: active === i,
                 onActivate: () => { setActive(i); sfx.move(); },
-                onSelect: () => { setActive(i); setRevealed(true); sfx.confirm(); },
+                onSelect: () => { setActive(i); setRevealed(true); sfx.confirm(); scrollToPanel(); },
+                onTap: () => scrollToPanel(),
               })}
             >
               <img className="sc-char" src={CHARS[i]} alt="" />

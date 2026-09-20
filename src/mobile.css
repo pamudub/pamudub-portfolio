@@ -210,6 +210,10 @@
     font-size: clamp(14px, 4vw, 19px) !important;
     line-height: 1.4 !important;
   }
+  /* ข้อความไทยในแผงข้อมูล → โทนใกล้เคียงอังกฤษแต่ไม่เด่นเท่า (เป็นรอง) */
+  .sc-reveal-panel .th-dim { color: rgba(255, 255, 255, 0.55) !important; }
+  /* ตอนเลื่อนจอไปที่แผงข้อมูล ให้เว้นระยะพองาม */
+  .sc-reveal-panel { scroll-margin-top: 10px; }
 
   /* ── หน้า Resume ──
      ต้องใช้ relative ไม่ใช่ static — เพื่อให้ z-index:10 ยังทำงาน

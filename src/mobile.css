@@ -134,12 +134,13 @@
 
   /* ภาพตัวละครใหญ่ → จัดเข้า flow เป็นภาพเต็มระหว่างแถบกับแผงข้อมูล
      (เดิม absolute ลอยทับข้อความฝั่งขวาและล้นจอครึ่งหนึ่ง) */
-  /* ภาพตัวละครใหญ่ → เห็นเต็มภาพทั้งใบ (ไม่ crop) — สูงตามสัดส่วนจริงของรูป */
+  /* ภาพตัวละครใหญ่ → ตัดให้เห็นถึงปลายคาง (ไม่เห็นตัวเต็มซึ่งยาวเกินไป) */
   .sc-main-portrait-shell {
     position: static !important;
     order: 2;
     width: 88vw !important;
-    height: auto !important;
+    height: 92vw !important;
+    max-height: 430px !important;
     margin: 12px auto 0 !important;
     right: auto !important;
     transform: none !important;
@@ -149,6 +150,9 @@
   .sc-main-portrait {
     width: 100% !important;
     height: auto !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    object-position: top center !important;
     transform: none !important;
   }
 

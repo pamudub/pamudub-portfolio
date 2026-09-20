@@ -75,16 +75,11 @@ export default function Socials() {
         if (e.key === "ArrowRight") { setFocus("right"); setActiveInfoBar(0); sfx.move(); }
         if (e.key === "Enter") { sfx.open(); window.open(ITEMS[active].href, "_blank"); }
       } else {
-        const barCount = ITEMS[active].bars;
+        const barCount = ITEMS[active].details.length;
         if (e.key === "ArrowUp") { setActiveInfoBar(i => Math.max(0, i - 1)); sfx.move(); }
         if (e.key === "ArrowDown") { setActiveInfoBar(i => Math.min(barCount - 1, i + 1)); sfx.move(); }
         if (e.key === "ArrowLeft") { setFocus("left"); sfx.move(); }
-        if (e.key === "Enter") {
-          let url = ITEMS[active].links[activeInfoBar];
-          if (!url.startsWith("http")) url = "https://" + url;
-          sfx.open();
-          window.open(url, "_blank");
-        }
+        if (e.key === "Enter") { sfx.open(); window.open(ITEMS[active].href, "_blank"); }
       }
       if ((e.key === "ArrowLeft" && focus === "left") || e.key === "Escape" || e.key === "Backspace") { sfx.back(); navigate(-1); }
     };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { sfx } from "./sfx";
 import { makeTouchSelectHandlers } from "./useTouchSelect";
+import { useBgmMuted } from "./bgm";
 
 const ITEMS = [
   { id: "about", label: "ABOUT ME", page: "about", fontSize: 80, offsetX: 0, offsetY: 0, skew: -6, skewY: 10 },
@@ -22,6 +23,7 @@ export default function P3Menu({ onNavigate }) {
   const [active, setActive] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [animKey, setAnimKey] = useState(0);
+  const [bgmMuted, toggleBgmMuted] = useBgmMuted();
 
   const activate = (idx) => {
     setActive(idx);
@@ -215,6 +217,56 @@ export default function P3Menu({ onNavigate }) {
         .p3-name-tag span:first-child {
           color: rgba(0, 0, 0, 0.86);
         }
+
+        /* ── ปุ่ม MUSIC ON/OFF: จาง ๆ ธีม Persona ใต้หัวข้อสุดท้าย ── */
+        .p3-music-toggle {
+          margin-top: 26px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 6px 10px;
+          opacity: 0.4;
+          transition: opacity 0.25s ease;
+          font-family: 'Anton', sans-serif;
+        }
+        .p3-music-toggle:hover,
+        .p3-music-toggle:focus-visible { opacity: 0.95; }
+        .p3-music-toggle:active { transform: translateY(1px); }
+        .p3-music-icon {
+          font-size: 20px;
+          color: #3ce2ff;
+          font-style: italic;
+          line-height: 1;
+        }
+        .p3-music-label {
+          position: relative;
+          display: inline-block;
+          transform: skewX(-6deg);
+        }
+        .p3-music-text {
+          font-size: 15px;
+          letter-spacing: 3px;
+          color: rgba(255, 255, 255, 0.55);
+          font-style: italic;
+          line-height: 1;
+        }
+        .p3-music-text-ghost {
+          position: absolute;
+          left: 2px; top: 2px;
+          font-size: 15px;
+          letter-spacing: 3px;
+          color: rgba(196, 0, 26, 0.5);
+          font-style: italic;
+          line-height: 1;
+          z-index: -1;
+        }
+        .p3-music-toggle .p3-music-text {
+          transition: color 0.25s ease;
+        }
+        .p3-music-toggle:hover .p3-music-text { color: #ffffff; }
       `}</style>
 
       <div className="p3-overlay">
@@ -296,6 +348,21 @@ export default function P3Menu({ onNavigate }) {
               </a>
             );
           })}
+
+          {/* ปุ่มเปิด/ปิดเพลง — จาง ๆ สไตล์ Persona (ตัวอักษรเอียงซ้อนสองชั้นแบบหัวข้อเมนู) */}
+          <button
+            type="button"
+            className="p3-music-toggle"
+            aria-pressed={!bgmMuted}
+            aria-label={bgmMuted ? "เปิดเพลง" : "ปิดเพลง"}
+            onClick={() => toggleBgmMuted()}
+          >
+            <span className="p3-music-icon" aria-hidden="true">♪</span>
+            <span className="p3-music-label">
+              <span className="p3-music-text">MUSIC {bgmMuted ? "OFF" : "ON"}</span>
+              <span className="p3-music-text-ghost" aria-hidden="true">MUSIC {bgmMuted ? "OFF" : "ON"}</span>
+            </span>
+          </button>
         </nav>
 
         <div className={`p3-hint ${mounted ? "mounted" : ""}`}>

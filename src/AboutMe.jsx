@@ -47,13 +47,15 @@ function renderMixedLang(text) {
   const isTh = (p) => /[\u0E00-\u0E7F]/.test(p);
   return parts.map((p, i) => {
     if (p === "") return null;
+    // ตัดช่องว่างหัวของช่วงที่ตามมา แล้วใช้ nbsp ที่รอยต่อแทน — รอดจากการตัดช่องว่างของ flex บน PC
+    const clean = i > 0 ? p.replace(/^\s+/, "") : p;
+    if (clean === "") return null;
     const next = parts[i + 1];
-    const boundary = next !== undefined && next !== "" && isTh(p) !== isTh(next);
-    const needsSpace = boundary && !/^\s/.test(next); // ถ้าข้างหน้าช่วงถัดไปมีช่องว่างอยู่แล้ว ไม่ต้องเติม
+    const boundary = next !== undefined && next !== "" && isTh(clean) !== isTh(next);
     return (
-      <span key={i} className={isTh(p) ? "th-dim" : undefined}>
-        {p}
-        {needsSpace ? " " : null}
+      <span key={i} className={isTh(clean) ? "th-dim" : undefined}>
+        {clean}
+        {boundary ? "\u00A0" : null}
       </span>
     );
   });
@@ -399,6 +401,18 @@ export default function AboutMe() {
           z-index: 60;
           display: block; /* เดิม flex — ตัดช่องว่างหัว/ท้าย span ทิ้ง ทำให้ไทยติดอังกฤษ */
           white-space: pre-wrap; /* คงช่องว่างที่ renderMixedLang เติมไว้ */
+        }
+
+        /* PC: จัดข้อความในแถบล่างให้อยู่กลางบล็อกทั้งแนวนอน-แนวตั้ง (มือถือคงเดิม)
+           ช่องว่างที่ใช้เป็น non-breaking space (จาก renderMixedLang) จึงไม่ถูก flex ตัดทิ้ง */
+        @media (min-width: 769px) {
+          .sc-reveal-lower-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          }
         }
 
         @keyframes sc-right-nav-pop {
